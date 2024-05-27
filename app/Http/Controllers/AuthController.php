@@ -18,8 +18,11 @@ class AuthController extends Controller
 
         // Cek kredensial
         if (Auth::attempt($credentials)) {
-            // Jika sukses, redirect ke halaman dashboard atau halaman yang diinginkan
-            return redirect()->intended('/home')->with('success', 'Login berhasil!');
+            if(Auth::user()->role == 'admin'){
+                return redirect()->intended('/dashboard')->with('success', 'Login berhasil!');
+            }else{
+                return redirect()->intended('/kasir')->with('success', 'Login berhasil!');
+            }
         } else {
             // Jika gagal, kembali ke halaman login dengan pesan error
             return redirect()->back()->with('error', 'Email atau password salah!')->withInput();

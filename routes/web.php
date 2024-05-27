@@ -31,11 +31,11 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/login', function(){
+Route::get('/login', function () {
     return view('login');
 })->name('login');
 
-Route::get('/home', function(){
+Route::get('/home', function () {
     return view('home');
 });
 
@@ -46,14 +46,12 @@ Route::get('/produk', [ProductController::class, 'display']);
 Route::get('/saran-dan-kritik', [CommentsController::class, 'index']);
 Route::post('/post-comment', [CommentsController::class, 'store']);
 
-Route::get('/tentang', function(){
+Route::get('/tentang', function () {
     return view('tentang');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function(){
-        return view('dashboard.index');
-    });
+Route::group(['middleware' => 'role:admin'], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index_admin']);
 
     Route::get('/dashboard/data-obat', [ProductController::class, 'index']);
     Route::post('/add-data-obat', [ProductController::class, 'store']);
@@ -65,10 +63,12 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/update-user/{id}', [UsersController::class, 'update']);
     Route::delete('/delete-user/{id}', [UsersController::class, 'destroy']);
 
-    Route::get('/dashboard/laporan', function(){
+    Route::get('/dashboard/laporan', function () {
         return view('dashboard.laporan');
     });
+});
 
+Route::group(['middleware' => 'role:kasir'], function () {
     Route::get('/kasir', [DashboardController::class, 'index']);
 
     Route::get('/kasir/pembelian', [ProductController::class, 'index_pembelian']);
@@ -76,8 +76,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/kasir/transaksi', [HistoryController::class, 'index']);
     Route::post('/kasir/filter-history', [HistoryController::class, 'filter']);
+});
 
-    Route::post('/logout', function(){
+Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', function () {
         Auth::logout();
         return redirect()->intended('/');
     })->name('logout');

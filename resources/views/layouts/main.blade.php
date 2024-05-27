@@ -44,16 +44,15 @@
             <div class="space-y-5 px-8 pt-10">
                 <a href="/dashboard" class="block font-bold">Dashboard</a>
                 <a href="/dashboard/data-obat" class="block font-bold">Data Obat</a>
-                <a href="/dashboard/laporan" class="block font-bold">Laporan</a>
                 <a href="/dashboard/manajemen-user" class="block font-bold">Manajemen User</a>
-                <a href="/home" class="block font-bold">Back To Home</a>
+                <a href="/logout" class="block font-bold">Logout</a>
             </div>
         @elseif(request()->segment(1) == 'kasir')
             <div class="space-y-5 px-8 pt-10">
                 <a href="/kasir" class="block font-bold">Dashboard</a>
                 <a href="/kasir/pembelian" class="block font-bold">Pembelian</a>
                 <a href="/kasir/transaksi" class="block font-bold">Transaksi</a>
-                <a href="/home" class="block font-bold">Back To Home</a>
+                <a href="/logout" class="block font-bold">Logout</a>
             </div>
         @endif
     </div>
