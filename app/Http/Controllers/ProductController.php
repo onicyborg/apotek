@@ -139,6 +139,7 @@ class ProductController extends Controller
             $totalPrice = $product->harga_jual * $quantity;
             $totalAllPrice += $totalPrice;
             $product->quantity -= $quantity;
+            $product->save();
 
             $productDetails[] = [
                 'product_id' => $productId,
